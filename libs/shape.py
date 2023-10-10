@@ -135,6 +135,9 @@ class Shape(object):
                 painter.fillPath(line_path, color)
 
     def draw_vertex(self, path, i):
+        """
+        绘制标记框4个顶点
+        """
         d = self.point_size / self.scale
         shape = self.point_type
         point = self.points[i]
@@ -146,13 +149,18 @@ class Shape(object):
         else:
             self.vertex_fill_color = Shape.vertex_fill_color
         if shape == self.P_SQUARE:
-            path.addRect(point.x() - d / 2, point.y() - d / 2, d, d)
+            # 鼠标滑过标记框4个顶点后的方形
+            path.addRect(point.x() - d / 4, point.y() - d / 4, d / 2, d / 2)
         elif shape == self.P_ROUND:
-            path.addEllipse(point, d / 2.0, d / 2.0)
+            # 标记框4个圆形顶点
+            path.addEllipse(point, d / 4.0, d / 4.0)
         else:
             assert False, "unsupported vertex shape"
 
     def nearest_vertex(self, point, epsilon):
+        """
+        查找最近的标记框
+        """
         index = None
         for i, p in enumerate(self.points):
             dist = distance(p - point)

@@ -11,6 +11,7 @@ except ImportError:
 
 from libs.shape import Shape
 from libs.utils import distance
+import libs.global_var as gvar
 
 CURSOR_DEFAULT = Qt.ArrowCursor
 CURSOR_POINT = Qt.PointingHandCursor
@@ -32,7 +33,8 @@ class Canvas(QWidget):
 
     CREATE, EDIT = list(range(2))
 
-    epsilon = 24.0
+    # 查找离鼠标最近的框的距离阈值，越小越精确，但是也更不容易触发四个移动角
+    epsilon = 10.0
 
     def __init__(self, *args, **kwargs):
         super(Canvas, self).__init__(*args, **kwargs)
@@ -112,11 +114,14 @@ class Canvas(QWidget):
         """Update line with last point and current coordinates."""
         pos = self.transform_pos(ev.pos())
 
+        # 标记框总数
+        label_list_count = 'COUNT: %d' % gvar.get_value("label_list").count()
+
         # Update coordinates in status bar if image is opened
         window = self.parent().window()
         if window.file_path is not None:
             self.parent().window().label_coordinates.setText(
-                'X: %d; Y: %d' % (pos.x(), pos.y()))
+                'X: %d; Y: %d; %s ' % (pos.x(), pos.y(), label_list_count))
 
         # Polygon drawing.
         if self.drawing():
@@ -126,7 +131,7 @@ class Canvas(QWidget):
                 current_width = abs(self.current[0].x() - pos.x())
                 current_height = abs(self.current[0].y() - pos.y())
                 self.parent().window().label_coordinates.setText(
-                        'Width: %d, Height: %d / X: %d; Y: %d' % (current_width, current_height, pos.x(), pos.y()))
+                        'Width: %d, Height: %d / X: %d; Y: %d; %s ' % (current_width, current_height, pos.x(), pos.y(), label_list_count))
 
                 color = self.drawing_line_color
                 if self.out_of_pixmap(pos):
@@ -188,7 +193,7 @@ class Canvas(QWidget):
                 current_width = abs(point1.x() - point3.x())
                 current_height = abs(point1.y() - point3.y())
                 self.parent().window().label_coordinates.setText(
-                        'Width: %d, Height: %d / X: %d; Y: %d' % (current_width, current_height, pos.x(), pos.y()))
+                        'Width: %d, Height: %d / X: %d; Y: %d; %s ' % (current_width, current_height, pos.x(), pos.y(), label_list_count))
             elif self.selected_shape and self.prev_point:
                 self.override_cursor(CURSOR_MOVE)
                 self.bounded_move_shape(self.selected_shape, pos)
@@ -201,7 +206,7 @@ class Canvas(QWidget):
                 current_width = abs(point1.x() - point3.x())
                 current_height = abs(point1.y() - point3.y())
                 self.parent().window().label_coordinates.setText(
-                        'Width: %d, Height: %d / X: %d; Y: %d' % (current_width, current_height, pos.x(), pos.y()))
+                        'Width: %d, Height: %d / X: %d; Y: %d; %s ' % (current_width, current_height, pos.x(), pos.y(), label_list_count))
             else:
                 # pan
                 delta = ev.pos() - self.pan_initial_pos
@@ -246,7 +251,7 @@ class Canvas(QWidget):
                 current_width = abs(point1.x() - point3.x())
                 current_height = abs(point1.y() - point3.y())
                 self.parent().window().label_coordinates.setText(
-                        'Width: %d, Height: %d / X: %d; Y: %d' % (current_width, current_height, pos.x(), pos.y()))
+                        'Width: %d, Height: %d / X: %d; Y: %d; %s ' % (current_width, current_height, pos.x(), pos.y(), label_list_count))
                 break
         else:  # Nothing found, clear highlights, reset state.
             if self.h_shape:
