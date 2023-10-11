@@ -123,15 +123,24 @@ and `install lxml <http://lxml.de/installation.html>`__.
 Open cmd and go to the `labelImg <#labelimg>`__ directory
 
 .. code:: shell
-    # For pyqt4
+    
     pyrcc4 -o libs/resources.py resources.qrc
-    # For pyqt5
-    pyrcc5 -o libs/resources.py resources.qrc
+    For pyqt5, pyrcc5 -o libs/resources.py resources.qrc
 
     python labelImg.py
     python labelImg.py [IMAGE_PATH] [PRE-DEFINED CLASS FILE]
 
-If you want to package it into a separate EXE file
+If you want to package it into a separate EXE file by Nuitka
+
+.. code:: shell
+
+    pip install nuitka
+    nuitka --standalone --windows-disable-console --show-memory --show-progress --nofollow-imports --enable-plugin=pyqt5 --follow-import-to=libs --output-dir=dist labelImg.py
+    or
+    export_exe_by_nuitka.bat
+
+
+If you want to package it into a separate EXE file by pyinstaller
 
 .. code:: shell
 
@@ -139,6 +148,8 @@ If you want to package it into a separate EXE file
 
     pip install pyinstaller
     pyinstaller --hidden-import=pyqt5 --hidden-import=lxml -F -n "labelImg" -c labelImg.py -p ./libs -p ./
+
+
 
 Windows + Anaconda
 ^^^^^^^^^^^^^^^^^^

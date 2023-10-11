@@ -1,0 +1,1 @@
+nuitka --standalone --windows-disable-console --show-memory --show-progress --nofollow-imports --enable-plugin=pyqt5 --follow-import-to=libs --output-dir=dist labelImg.py
