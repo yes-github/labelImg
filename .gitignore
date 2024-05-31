@@ -3,6 +3,7 @@ resources.py
 labelImg.egg-info*
 
 *.pyc
+*.spec
 .*.swp
 
 build/
