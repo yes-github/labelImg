@@ -232,7 +232,7 @@ class MainWindow(QMainWindow, WindowMixin):
         open_dir = action(get_str('openDir'), self.open_dir_dialog,
                           'Ctrl+u', 'open', get_str('openDir'))
 
-        # add: 重新加载当前文件夹
+        # 重新加载当前文件夹
         reload_dir = action(get_str('reloadDir'), self.reload_silent,
                             'Ctrl+/', 'reload', get_str('reloadDir'))
 
@@ -244,11 +244,12 @@ class MainWindow(QMainWindow, WindowMixin):
         copy_prev_bounding = action(get_str(
             'copyPrevBounding'), self.copy_previous_bounding_boxes, 'Ctrl+v', 'copy', get_str('copyPrevBounding'))
 
+        # 下一张图 / 'd'
         open_next_image = action(get_str('nextImg'), self.open_next_image,
-                                 'd', 'next', get_str('nextImgDetail'))
-
+                                 'Right', 'next', get_str('nextImgDetail'))
+        # 上一张图 / 'a'
         open_prev_image = action(get_str('prevImg'), self.open_prev_image,
-                                 'a', 'prev', get_str('prevImgDetail'))
+                                 'Left', 'prev', get_str('prevImgDetail'))
 
         verify = action(get_str('verifyImg'), self.verify_image,
                         'space', 'verify', get_str('verifyImgDetail'))
@@ -287,18 +288,19 @@ class MainWindow(QMainWindow, WindowMixin):
         color1 = action(get_str('boxLineColor'), self.choose_color1,
                         'Ctrl+L', 'color_line', get_str('boxLineColorDetail'))
 
+        # 新建标记框 / 'w'
         create_mode = action(get_str('crtBox'), self.set_create_mode,
-                             'w', 'new', get_str('crtBoxDetail'), enabled=False)
-        # 'Ctrl+J'
+                             'Up', 'new', get_str('crtBoxDetail'), enabled=False)
+        # 修改标记框 / 'Ctrl+J'
         edit_mode = action(get_str('editBox'), self.set_edit_mode,
-                           's', 'edit', get_str('editBoxDetail'), enabled=False)
+                           'Down', 'edit', get_str('editBoxDetail'), enabled=False)
 
         create = action(get_str('crtBox'), self.create_shape,
                         'w', 'new', get_str('crtBoxDetail'), enabled=False)
         
-        # 'Delete'
+        # 删除 / 'Delete'
         delete = action(get_str('delBox'), self.delete_selected_shape,
-                        'x', 'delete', get_str('delBoxDetail'), enabled=False)
+                        'Delete', 'delete', get_str('delBoxDetail'), enabled=False)
         
         copy = action(get_str('dupBox'), self.copy_selected_shape,
                       'Ctrl+D', 'copy', get_str('dupBoxDetail'),
