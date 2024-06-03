@@ -6,8 +6,8 @@ pyinstaller --hidden-import=pyqt5 --hidden-import=lxml -F -n "labelImg" -c label
 ```
 
 #### 常用快捷键（labelImg.py）
-w : 编辑模式
-s : 选择模式
-x : 删除
-a ：上一张图
-d ：下一张图
+up : 编辑模式
+down : 选择模式
+delete : 删除
+left ：上一张图
+right ：下一张图
