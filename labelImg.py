@@ -800,7 +800,15 @@ class MainWindow(QMainWindow, WindowMixin):
         item = self.current_item()
         if not item:
             return
+        
         text = self.label_dialog.pop_up(item.text())
+        """ 临时测试（用于不同车牌快速切换） ################################
+        if item.text() == "white":
+            text = "red"
+        else:
+            text = "white"
+        #"""
+
         if text is not None:
             item.setText(text)
             item.setBackground(generate_color_by_text(text))
